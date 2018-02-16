@@ -1,0 +1,70 @@
+import java.util.Scanner; 
+
+public class credit_card_validition {
+
+	public static void main(String[] args) {
+		
+		Scanner input = new Scanner(System.in);
+		System.out.print("Enter a credit card number as a long integer: ");
+		long number = input.nextLong();
+		
+		System.out.println( 
+				number + " is " + (is_valid(number) ? "valid" : "invalid")); 
+		
+
+	}
+
+	public static boolean is_valid(long number) {
+		boolean valid = 
+				(get_size(number) >= 13 && get_size(number) <= 16) && 
+				(prefix_match(number, 4) || prefix_match(number, 5) || 
+				prefix_match(number, 37) || prefix_match(number, 6)) && 
+				((sum_even(number) + sum_odd(number)) % 10 == 0); 
+		return valid; 
+	}
+	
+	public static int sum_even(long number) {
+		int sum = 0;
+		String num = number + ""; 
+		for (int i = get_size(number) - 2; i >= 0; i -= 2) {
+			sum += get_digit(Integer.parseInt(num.charAt(i) + "") * 2); 
+			
+		}
+		return sum; 
+	}
+	public static int get_digit(int number) { 
+		if (number < 9) 
+			return number; 
+		else 
+			return number / 10 + number % 10; 
+		
+	}
+	public static int sum_odd(long number) {
+		int sum = 0;
+		String num = number + "";
+		for (int i = get_size(number) - 1; i >= 0; i -=2) {
+			sum += Integer.parseInt(num.charAt(i) + ""); 
+			
+		}
+		return sum; 
+		
+	}
+	public static boolean prefix_match(long number, int d) {
+		return get_prefix(number, get_size(d)) == d;
+	}
+	
+	public static int get_size(long d) {
+		String num = d + "";
+		return num.length(); 
+	}
+	public static long get_prefix(long number, int k) {
+		if (get_size(number) > k) {
+			String num = number + ""; 
+			return Long.parseLong(num.substring(0, k)); 
+			
+		}
+		return number; 
+	}
+	
+	
+}
